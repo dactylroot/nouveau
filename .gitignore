@@ -4,5 +4,7 @@
 *build/*
 *dist/*
 
+*.ipynb_checkpoints/*
+
 */torches/*
 nouveau/__doc__

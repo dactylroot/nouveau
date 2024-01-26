@@ -20,19 +20,19 @@ class Morris():
     _storage_csv='morris.csv'
     _storage_jpg='jpgs'
     def __init__(self,root=_Path(__file__).parent,transform=False):
-        self.storage = _Path(root)
+        self.storage_path = _Path(root)
         self.transform = transform
-        self.index = _pd.read_csv(self.storage / self._storage_csv)
+        self.index = _pd.read_csv(self.storage_path / self._storage_csv)
         self._self_validate()
 
-    def torch(self):
+    def to_torch(self):
         import torch
         from torchvision import transforms
 
-        class MorrisTorch(torch.utils.data.Dataset,Morris):
+        class MorrisDataset(torch.utils.data.Dataset,Morris):
 
             def __init__(self,root=_Path(__file__).parent,transform=False):
-                super().__init__(root,transform)
+                super().__init__()
 
             def show(self,idx):
                 name=None
@@ -53,7 +53,7 @@ class Morris():
 
             def __getitem__(self,idx):
                 item = self.index.iloc[idx].to_dict()
-                image = _io.imread(self.storage / self._storage_jpg / self.index.iloc[idx].filename)
+                image = _io.imread(self.storage_path / self._storage_jpg / self.index.iloc[idx].filename)
                 image = torch.tensor(image).permute(2,0,1)
                 if self.transform:
                     image = self.transform(image)
@@ -61,14 +61,14 @@ class Morris():
                 item = [image,item['name'],item['year']]
                 return item
 
-        return MorrisTorch(str(self.storage),self.transform)
+        return MorrisDataset(str(self.storage_path),self.transform)
 
     def __len__(self):
         return len(self.index)
 
     def __getitem__(self,idx):
         item = self.index.iloc[idx].to_dict()
-        image = _io.imread(self.storage / self._storage_jpg / self.index.iloc[idx].filename)
+        image = _io.imread(self.storage_path / self._storage_jpg / self.index.iloc[idx].filename)
 
         if self.transform:
             image = self.transform(image)
@@ -101,7 +101,7 @@ class Morris():
         """try loading each image in the dataset"""
         allgood=True
         for filename in self.index.filename.values:
-            _file = _Path(self.storage / self._storage_jpg / filename)
+            _file = _Path(self.storage_path / self._storage_jpg / filename)
             if _file.is_file():
                 continue
             else:
