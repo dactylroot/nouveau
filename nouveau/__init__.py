@@ -10,10 +10,6 @@ from PIL import Image as _Image
 with open(_os.path.abspath(_os.path.dirname(__file__))+'/__doc__','r') as _f:
     __doc__ = _f.read()
 
-# Ignore warnings
-import warnings as _warnings
-_warnings.filterwarnings("ignore")
-
 _plt.ion()   # interactive mode
 
 class Morris():
@@ -47,9 +43,12 @@ class Morris():
                 if isinstance(idx,int):
                     name = self.index.name[idx]
                     _plt.title(name)
-                    _plt.imshow(transforms.ToPILImage()(self.__getitem__(idx)[0]))
+                    im = transforms.ToPILImage()(self.__getitem__(idx)[0])
+                    _plt.imshow(im)
                 else:
-                    _plt.imshow(transforms.ToPILImage()(idx))
+                    im = transforms.ToPILImage()(idx)
+                    _plt.imshow(im)
+                return im
 
             def __getitem__(self,idx):
                 item = self.index.iloc[idx].to_dict()
@@ -76,6 +75,28 @@ class Morris():
         item['image'] = image
         return item
 
+    def toPIL(self,idx):
+        if isinstance(idx,str):
+            if idx in self.index.name.values:
+                idx = self.index.index[self.index.name==idx][0]
+                idx = int(idx)
+                name = self.index.name[idx]
+                print(f"found item {idx} by name {name}")
+            else:
+                raise ValueError('item name not found')
+        if isinstance(idx,int):
+            _item = self.__getitem__(idx)
+            image = _item['image']
+            name  = _item['name']
+            im = _Image.fromarray(image)
+        else:
+            try:
+                im = _Image.fromarray(idx)
+                _plt.imshow(im)
+            except AttributeError:
+                im = self.to_torch().show(idx)
+        return im
+
     def show(self,idx):
         if isinstance(idx,str):
             if idx in self.index.name.values:
@@ -90,12 +111,15 @@ class Morris():
             image = _item['image']
             name  = _item['name']
             _plt.title(name)
-            _plt.imshow(_Image.fromarray(image))
+            im = _Image.fromarray(image)
+            _plt.imshow(im)
         else:
             try:
-                _plt.imshow(_Image.fromarray(idx))
+                im = _Image.fromarray(idx)
+                _plt.imshow(im)
             except AttributeError:
-                _plt.imshow(_Image.fromarray(idx.permute(1,2,0).numpy()))
+                im = self.to_torch().show(idx)
+        return im
 
     def _self_validate(self):
         """try loading each image in the dataset"""
@@ -115,7 +139,7 @@ class Morris():
                     print(f"couldn't load {filename}")
         if allgood:
             print(f"{len(self)} images present.")
-            
+
 class Deframe(object):
     """check for uniform color boundaries on edges of input and crop them away"""
     from torch import Tensor
