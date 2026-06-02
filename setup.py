@@ -5,7 +5,7 @@ with open('README.md') as f:
     long_description = f.read()
 
 name = 'nouveau'
-version = '0.0.5'
+version = '0.1.0'
 
 from shutil import copyfile
 _workdir = path.abspath(path.dirname(__file__))
