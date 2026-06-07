@@ -3,23 +3,34 @@
 
 Public domain lazy-downloading data samples.
 
-## Mucha
-
-https://www.wikiart.org/en/alphonse-mucha/
-
-## Morris
-
-This is a collection of designs by the famous Morris company artists of the 1800s.
-
-# Format
-
- - image: image in numpy array or PyTorch tensor format
- - name: a common name for the design
- - year: initial year of design
+ - [Mucha](https://www.wikiart.org/en/alphonse-mucha/)
+ - [Morris](https://www.wikiart.org/store/wm-morris-and-co.html)
 
 # Example Use
 
     import nouveau
+
+    # random image from all datasets
+    img = next(nouveau)
+    >> <PIL Image>
+
+    # metadata for the last image returned by next()
+    nouveau.details
+    >> {'year': 1897, 'name': 'Zodiac', 'filename': '1897-Zodiac.jpg'}
+
+    # indexed access — randomly assigned on first read, cached thereafter
+    nouveau[0]
+    >> <PIL Image>
+    nouveau[0]  # same image
+    >> <PIL Image>
+
+    # sample a finite batch
+    import itertools
+    batch = list(itertools.islice(nouveau, 8))
+
+    # infinite stream
+    for img in nouveau:
+        process(img)
 
     morris = nouveau.Morris()
     mucha  = nouveau.Mucha()
