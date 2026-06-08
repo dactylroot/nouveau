@@ -5,6 +5,7 @@ Public domain lazy-downloading data samples.
 
  - [Mucha](https://www.wikiart.org/en/alphonse-mucha/)
  - [Morris](https://www.wikiart.org/store/wm-morris-and-co.html)
+ - [Driscoll](https://en.wikipedia.org/wiki/Clara_Driscoll_(glass_designer)) — Tiffany Studios lamp and glass designs (CC BY-SA 4.0)
 
 # Example Use
 
@@ -18,26 +19,36 @@ Public domain lazy-downloading data samples.
     nouveau.details
     >> {'year': 1897, 'name': 'Zodiac', 'filename': '1897-Zodiac.jpg'}
 
-    # indexed access — randomly assigned on first read, cached thereafter
+## Indexed access — randomly assigned on first read, cached thereafter
+
     nouveau[0]
     >> <PIL Image>
     nouveau[0]  # same image
     >> <PIL Image>
 
-    # sample a finite batch
+## Sample a finite batch
+
     import itertools
     batch = list(itertools.islice(nouveau, 8))
 
-    # infinite stream
+## Infinite stream
+
     for img in nouveau:
         process(img)
 
-    morris = nouveau.Morris()
-    mucha  = nouveau.Mucha()
+## Collection Access & Sampling
+
+    morris   = nouveau.collections.Morris()
+    mucha    = nouveau.collections.Mucha()
+    driscoll = nouveau.collections.Driscoll()
 
     # pandas index of metadata
     morris.index.head()
     >> shows pandas dataframe head with year, name, filename columns
+
+    # random image from a specific collection
+    driscoll.sample()
+    >> <PIL Image>
 
     # iterate as PIL Images (aligned with index by position)
     for i, img in enumerate(morris):
@@ -68,10 +79,25 @@ Public domain lazy-downloading data samples.
 
 
 ---
-license: unlicense
+license: cc-by-sa-4.0
 task_categories:
 - image-classification
-pretty_name: Morris Co. Public Domain Art
+pretty_name: Art Nouveau Design Data
 size_categories:
 - n<1K
+tags:
+- morris
+- mucha
+- driscoll
+- tiffany
 ---
+
+# Licenses
+
+| Collection | License |
+|---|---|
+| Morris | [Unlicense](https://unlicense.org) |
+| Mucha | [Unlicense](https://unlicense.org) |
+| Driscoll | [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/) |
+
+The package code is [Unlicense](https://unlicense.org). Image data licenses vary by collection as noted above. The overall dataset is distributed under CC BY-SA 4.0 as the most restrictive license present.

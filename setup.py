@@ -1,35 +1,27 @@
-from setuptools import setup,find_packages
-from os import path
+from setuptools import setup, find_packages
 
 with open('README.md') as f:
     long_description = f.read()
 
 name = 'nouveau'
-version = '0.1.0'
-
-from shutil import copyfile
-_workdir = path.abspath(path.dirname(__file__))
-copyfile(_workdir+'/README.md',_workdir+'/nouveau/__doc__'.format(name))
+version = '1.0.0'
 
 setup(name=name
     , version=version
-    , description='public domain art nouveau image data'
+    , description='public domain art nouveau image data — lazy-downloading datasets of Morris, Mucha, and Driscoll'
     , long_description=long_description
     , long_description_content_type='text/markdown'
-    , url='https://github.com/dactylroot/{}'.format(name) # source URL
-    , download_url="https://github.com/dactylroot/{0}/archive/{1}.tar.gz".format(name,version)
+    , url='https://github.com/dactylroot/{}'.format(name)
+    , download_url='https://github.com/dactylroot/{0}/archive/{1}.tar.gz'.format(name, version)
     , license='Unlicense'
     , packages=find_packages()
-    , include_package_data=True     # includes files from e.g. MANIFEST.in
+    , include_package_data=True
     , classifiers=[
         'Development Status :: 5 - Production/Stable',
-        'License :: OSI Approved :: The Unlicense (Unlicense)',
         'Topic :: Scientific/Engineering :: Artificial Intelligence',
       ]
-    , keywords=['art','data','dataset']
-    , install_requires=['pandas','numpy','pillow','scikit-learn']
-    , python_requires='>=3.5'
-    , zip_safe=True
+    , keywords=['art', 'data', 'dataset', 'nouveau', 'tiffany', 'mucha', 'morris']
+    , install_requires=['pandas', 'numpy', 'pillow', 'scikit-image', 'matplotlib']
+    , python_requires='>=3.8'
+    , zip_safe=False
      )
-
-

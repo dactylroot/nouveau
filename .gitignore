@@ -7,4 +7,4 @@
 *.ipynb_checkpoints/*
 
 */torches/*
-nouveau/__doc__
+nouveau/*/*.jpg

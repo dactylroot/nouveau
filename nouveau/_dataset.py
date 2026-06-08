@@ -7,6 +7,9 @@ import matplotlib.pyplot as _plt
 from pathlib import Path as _Path
 from PIL import Image as _Image
 
+_PACKAGE_DIR = _Path(__file__).parent
+_CACHE_DIR = _Path.home() / '.cache' / 'nouveau'
+
 
 class _ArtDataset():
     _storage_csv = None
@@ -18,10 +21,10 @@ class _ArtDataset():
         if cls.__bases__ != (_ArtDataset,):
             raise TypeError(f"{cls.__name__} must directly subclass _ArtDataset, not {cls.__bases__}")
 
-    def __init__(self, root=_Path(__file__).parent, transform=False):
-        self.storage_path = _Path(root)
+    def __init__(self, root=None, transform=False):
+        self.storage_path = _Path(root) if root is not None else _CACHE_DIR
         self.transform = transform
-        self.index = _pd.read_csv(self.storage_path / self._storage_csv)
+        self.index = _pd.read_csv(_PACKAGE_DIR / self._storage_csv)
         self._self_validate()
 
     def to_torch(self):
@@ -34,7 +37,7 @@ class _ArtDataset():
 
         class _TorchDataset(torch.utils.data.Dataset, ArtClass):
 
-            def __init__(self, root=_Path(__file__).parent, transform=False):
+            def __init__(self, root=None, transform=False):
                 torch.utils.data.Dataset.__init__(self)
                 ArtClass.__init__(self, root, transform)
 

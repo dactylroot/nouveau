@@ -1,7 +1,6 @@
 
 import types
 import unittest
-from unittest.mock import patch, MagicMock
 
 import nouveau
 from nouveau._dataset import _ArtDataset
@@ -29,8 +28,12 @@ class TestPublicAPI(unittest.TestCase):
         self.assertTrue(hasattr(nouveau.collections, 'Mucha'))
         self.assertTrue(issubclass(nouveau.collections.Mucha, _ArtDataset))
 
+    def test_driscoll_in_collections(self):
+        self.assertTrue(hasattr(nouveau.collections, 'Driscoll'))
+        self.assertTrue(issubclass(nouveau.collections.Driscoll, _ArtDataset))
+
     def test_collections_are_direct_subclasses(self):
-        for cls in (nouveau.collections.Morris, nouveau.collections.Mucha):
+        for cls in (nouveau.collections.Morris, nouveau.collections.Mucha, nouveau.collections.Driscoll):
             with self.subTest(cls=cls.__name__):
                 self.assertEqual(cls.__bases__, (_ArtDataset,))
 
@@ -43,7 +46,7 @@ class TestPublicAPI(unittest.TestCase):
 
     def test_no_public_dataset_classes_on_root(self):
         public = {k for k in vars(nouveau) if not k.startswith('_')}
-        self.assertEqual(public & {'Morris', 'Mucha'}, set(),
+        self.assertEqual(public & {'Morris', 'Mucha', 'Driscoll'}, set(),
                          "dataset classes should live under nouveau.collections, not the root module")
 
 

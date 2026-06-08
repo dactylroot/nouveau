@@ -1,20 +1,18 @@
 
-import os as _os
 import random as _random
 import sys as _sys
 import types as _types
-from pathlib import Path as _Path
 from PIL import Image as _Image
-import matplotlib.pyplot as _plt
 
 from ._dataset import _ArtDataset
 from . import collections
 from . import transforms
 
-with open(_os.path.abspath(_os.path.dirname(__file__)) + '/__doc__', 'r') as _f:
-    __doc__ = _f.read()
-
-_plt.ion()
+try:
+    from importlib.metadata import metadata as _metadata
+    __doc__ = _metadata('nouveau').get_payload()
+except Exception:
+    __doc__ = 'Art Nouveau public domain image datasets.'
 
 
 class _DetailsProxy(dict):

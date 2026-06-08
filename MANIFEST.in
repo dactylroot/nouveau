@@ -1,5 +1,5 @@
 include README.md
-include nouveau/__doc__
 include nouveau/morris.csv
 include nouveau/mucha.csv
-exclude nouveau/jpgs/*
+include nouveau/driscoll.csv
+exclude nouveau/*/*.jpg
