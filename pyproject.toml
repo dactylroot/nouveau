@@ -1,0 +1,39 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "nouveau"
+version = "1.0.1"
+description = "public domain art nouveau image data: lazy-downloading datasets of Morris, Mucha, and Driscoll"
+readme = {file = "README.md", content-type = "text/markdown"}
+license = {text = "Unlicense"}
+requires-python = ">=3.8"
+keywords = ["art", "data", "dataset", "nouveau", "tiffany", "mucha", "morris"]
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+    "License :: OSI Approved :: The Unlicense (Unlicense)",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3 :: Only",
+]
+dependencies = [
+    "pandas",
+    "numpy",
+    "pillow",
+    "scikit-image",
+    "matplotlib",
+]
+
+[project.urls]
+Homepage = "https://github.com/dactylroot/nouveau"
+"Source Code" = "https://github.com/dactylroot/nouveau"
+"Bug Tracker" = "https://github.com/dactylroot/nouveau/issues"
+Changelog = "https://github.com/dactylroot/nouveau/releases"
+
+[tool.setuptools.packages.find]
+where = ["."]
+exclude = ["tests*"]
+
+[tool.setuptools.package-data]
+nouveau = ["*.csv"]
