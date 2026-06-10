@@ -1,0 +1,34 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "nouveau"
+version = "1.0.2"
+description = "public domain art nouveau image data: lazy-downloading datasets of Morris, Mucha, and Driscoll"
+readme = {file = "README.md", content-type = "text/markdown"}
+license-expression = "Unlicense"
+requires-python = ">=3.8"
+keywords = ["art", "data", "dataset", "nouveau", "tiffany", "mucha", "morris"]
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3 :: Only",
+]
+dependencies = [
+    "pandas",
+    "numpy",
+    "pillow",
+    "scikit-image",
+    "matplotlib",
+]
+
+[project.urls]
+Homepage = "https://github.com/dactylroot/nouveau"
+"Source Code" = "https://github.com/dactylroot/nouveau"
+"Bug Tracker" = "https://github.com/dactylroot/nouveau/issues"
+Changelog = "https://github.com/dactylroot/nouveau/releases"
+
+[tool.hatch.build.targets.wheel]
+packages = ["nouveau"]

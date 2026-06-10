@@ -1,5 +1,0 @@
-include README.md
-include nouveau/morris.csv
-include nouveau/mucha.csv
-include nouveau/driscoll.csv
-exclude nouveau/*/*.jpg

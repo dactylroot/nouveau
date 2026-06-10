@@ -1,16 +1,22 @@
 
-## Preparation
+## Releasing a new version
 
-    python3 -m pip install --user --upgrade build twine
+1. Bump `version` in `pyproject.toml`
+2. Commit and push:
+   ```
+   git add pyproject.toml
+   git commit -m "release vX.Y.Z"
+   git push
+   ```
+3. Create a GitHub Release tagged `vX.Y.Z` — this triggers the publish workflow:
+   ```
+   gh release create vX.Y.Z --title "vX.Y.Z" --notes "..."
+   ```
 
-## Distribution
+The workflow builds the wheel, attests SLSA provenance, and publishes to PyPI via OIDC Trusted Publisher (no API tokens required).
 
-  1. Build: `python3 -m build`
-  2. Distribute: 
-    * `twine upload --repository-url https://upload.pypi.org/legacy/ dist/*`
-      * [Preview](https://pypi.org/project/nouveau/)
-    * `twine upload --repository-url https://test.pypi.org/legacy/ dist/*`
-      * [Preview](https://test.pypi.org/project/nouveau/)
-  3. Distribute github backup:
-    1. `git tag <version> -m "tag for PyPI"`
-    2. `git push --tags remotename branchname`
+## README.md is the single source of truth
+
+`pyproject.toml` embeds `README.md` as the PyPI long description. The package `__doc__`
+is also read from it at import time via `importlib.metadata`. Do not duplicate
+description content elsewhere.
